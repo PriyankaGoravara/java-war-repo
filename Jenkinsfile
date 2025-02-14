@@ -1,6 +1,11 @@
 pipeline {
     agent any
-    
+    stages {
+	    stage ('clean up') {
+	        steps {
+	            cleanWs()
+	        }
+	    }
     stages {
         stage('Clone') {
             steps {
