@@ -1,33 +1,29 @@
-pipeline {
-    agent any
-    stages {
-        stage('Parallel Execution') {  
-            parallel {
-                stage('Clean Up') {
-                    steps {
-                        cleanWs()
-                    }
-                }
-                stage('Clone') {
-                    steps {
-                        sh 'git clone https://github.com/PriyankaGoravara/java-war-repo.git'
-                    }
-                }
-                stage('Build') {
-                    steps {
-                        dir('java-war-repo') {
-                            sh 'mvn clean install -DskipTests'  
-                        }
-                    }
-                }
-                stage('Test') {
-                    steps {
-                        dir('java-war-repo') {
-                            sh 'mvn test'
-                        }
-                    }
-                }
-            }
-        }
-    }
+pipeline { 
+    agent any 
+    stages { 
+        stage('Clean Up') { 
+            steps { 
+                cleanWs() 
+            } 
+        } 
+        stage('Clone') { 
+            steps { 
+                checkout scm 
+            } 
+        } 
+        stage('Build & Test in Parallel') { 
+            parallel { 
+                stage('Build') { 
+                    steps { 
+                        sh 'mvn clean install -DskipTests' 
+                    } 
+                } 
+                stage('Test') { 
+                    steps { 
+                        sh 'mvn test' 
+                    } 
+                } 
+            } 
+        } 
+    } 
 }
