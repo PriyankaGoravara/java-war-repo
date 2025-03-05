@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'slave' } 
     environment {
         AWS_REGION = 'ap-south-1' 
         ECR_REPO = '203918867107.dkr.ecr.ap-south-1.amazonaws.com/my-ecr-repo'
