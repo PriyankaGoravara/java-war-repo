@@ -21,9 +21,10 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "sudo docker build -t $IMAGE_NAME ."
+                sh  "docker build -t $IMAGE_NAME ."
             }
         }
+
 
         stage('Push Image to AWS ECR') {
             steps {
@@ -37,7 +38,7 @@ pipeline {
                     sh "sudo docker tag $IMAGE_NAME:latest $ECR_REPO:latest"
 
               
-                    sh "sudo docker push $ECR_REPO:latest"
+                    sh "docker push $ECR_REPO:latest"
                 }
             }
         }
